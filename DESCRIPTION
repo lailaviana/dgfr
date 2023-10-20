@@ -1,4 +1,4 @@
-Package: mufasa
+Package: dgfr
 Title: Analyze Sequence Diversity Of Gene Families
 Version: 0.0.0.9000
 Authors@R: 
@@ -14,13 +14,13 @@ Imports:
     dplyr,
     factoextra,
     ggplot2,
+    ggtree (>= 3.9.1),
     magrittr,
     NbClust,
     purrr,
     stats,
     tibble,
-    tidyr,
-    utils
+    tidyr
 Depends: 
     R (>= 2.10)
 LazyData: true
@@ -29,3 +29,5 @@ BugReports: https://github.com/lailaviana/dgfr/issues
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Remotes:  
+    https://github.com/YuLab-SMU/ggtree

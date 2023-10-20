@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The purpose of the dgfr package is to enable the visualization of sequence diversity within gene/protein families. In addition, it will be possible to determine the optimal number of clusters for grouping members of gene families based on sequence similarity and to calculate the mean/meadian similarity inside each cluster.
+The purpose of the dgfr package is to enable the visualization of sequence diversity within gene/protein families. In addition, it will be possible to determine the optimal number of clusters for grouping members of gene families based on sequence similarity and to calculate the mean/median similarity inside each cluster.
 
 ## Installation
 
@@ -46,7 +46,7 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 The output will be a dataframe containing the score of each pairwise alignment among all sequences provided.
 
 ```{r}
-score_file <- dgfr::get_alignment_score(fasta = fasta_file,
+score_file <- dgfr::get_alignment_score(fasta = fasta,
                                         type = "prot",
                                         alignment_method = "global")
 ```
@@ -83,7 +83,18 @@ Finally, you will have a table containing the name of each sequence, its positio
 ```{r}
 head(kmeans_output)
 ```
-7. Finally, you can access the mean/median similarity among each cluster using the function `similarity_cluster`. This function takes as argument the `kmeans_clustering` function output, the `get_alignment_score` output and you must also choose between two possible visualizations output. The "table" output returns a table containing the mean and median similarity among all clusters and the number of genes inside each cluster.   
+
+7. The next function, allows you to visualize the sequences and its cluster in a tree-like structure. You must provide the `kmeans_clustering` function output and the `create_distance_matrix` output. The output will be a plot containing the sequences and its cluster.
+
+```{r}
+tree <- dgfr::create_tree(distance_matrix = distance_matrix,
+                kmeans_output = kmeans_output)
+
+tree
+```
+
+
+8. Finally, you can access the mean/median similarity among each cluster using the function `similarity_cluster`. This function takes as argument the `kmeans_clustering` function output, the `get_alignment_score` output and you must also choose between two possible visualizations output. The "table" output returns a table containing the mean and median similarity among all clusters and the number of genes inside each cluster.   
 
 ```{r, fig.align='center'}
 dgfr::similarity_cluster(score_file = score_file,
@@ -168,7 +179,7 @@ Another functionality is to integrate RNAseq data to visualize the expression an
 
 ```{r, out.width="60%", fig.align='center'}
 kmeans_out_l2fc <- kmeans_output |> 
-  dplyr::mutate(l2fc = runif(476, min = 0.1, max = 4))
+  dplyr::mutate(l2fc = runif(616, min = 0.1, max = 4))
 
 kmeans_out_l2fc |> 
   dplyr::mutate(cluster = as.character(cluster)) |> 

@@ -1,10 +1,10 @@
 ## code to prepare `fasta` dataset goes here
-fasta <- Biostrings::readAAStringSet("data-raw/fasta")
+fasta <- Biostrings::readAAStringSet("data-raw/ts_prot.fasta")
 usethis::use_data(fasta, overwrite = TRUE)
 
 
 ## code to prepare `score_file` dataset goes here
-score_file <- dgfr::get_alignment_score(fasta = "data-raw/fasta",
+score_file <- dgfr::get_alignment_score(fasta = fasta,
                                   type = "prot",
                                   alignment_method = "global")
 

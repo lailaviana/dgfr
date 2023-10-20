@@ -13,6 +13,14 @@
 #' @return The result of calling `rhs(lhs)`.
 NULL
 
+#' Pipe operator for ggtree
+#'
+#' @name %<+%
+#' @rdname pipe_ggtree
+#' @keywords internal
+#' @export
+#' @importFrom ggtree %<+%
+NULL
 
 utils::globalVariables(c("pident", "qcovs", "query", "subject", "distance",
                          "genes", "gene1", "mean_distance", "variance.percent",
