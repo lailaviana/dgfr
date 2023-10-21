@@ -86,7 +86,7 @@ head(kmeans_output)
 
 7. The next function, allows you to visualize the sequences and its cluster in a tree-like structure. You must provide the `kmeans_clustering` function output and the `create_distance_matrix` output. The output will be a plot containing the sequences and its cluster.
 
-```{r}
+```{r, out.width="60%", fig.align='center'}
 tree <- dgfr::create_tree(distance_matrix = distance_matrix,
                 kmeans_output = kmeans_output)
 

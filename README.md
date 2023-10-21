@@ -135,7 +135,7 @@ tree <- dgfr::create_tree(distance_matrix = distance_matrix,
 tree
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="60%" style="display: block; margin: auto;" />
 
 8.  Finally, you can access the mean/median similarity among each
     cluster using the function `similarity_cluster`. This function takes
