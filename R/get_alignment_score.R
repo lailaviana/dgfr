@@ -66,8 +66,13 @@ get_alignment_score <- function(fasta, type, alignment_method) {
   # Loading fasta file ---------
   message("[2/5] Loading fasta file...")
   myseq = fasta
+
   # Recovering the sequences names ------------
-  names <- names(fasta)
+  new_headers <- sub(" .*", "", names(myseq))  # Remove tudo após o primeiro espaço
+
+  # New headers to sequences -----------
+  names(myseq) <- new_headers
+  names <- names(myseq)
 
   names_df <- names |>
     tibble::as_tibble() |>
