@@ -2,7 +2,7 @@ Package: dgfr
 Title: Analyze Sequence Diversity Of Gene Families
 Version: 0.0.0.9000
 Authors@R: 
-    person("Laila", "Almeida", , "lailavalmeida@gmail.com", role = c("aut", "cre"),
+    person("Laila", "Viana", , "lailavalmeida@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7957-2196"))
 Description: This package provides tools for analyzing the sequence diversity of gene families. It includes functions for sequence alignment, diversity measurement, and visualization of gene family relationships. The package is designed to assist researchers in exploring and visualizing gene families.
 License: GPL (>= 3)
