@@ -1,0 +1,37 @@
+Package: dgfr
+Title: Analyze Sequence Diversity Of Gene Families
+Version: 0.0.0.9000
+Authors@R: 
+    person("Laila", "Almeida", , "lailavalmeida@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7957-2196"))
+Description: This package provides tools for analyzing the sequence diversity of gene families. It includes functions for sequence alignment, diversity measurement, and visualization of gene family relationships. The package is designed to assist researchers in exploring and visualizing gene families.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports:
+    Biostrings,
+    dplyr,
+    factoextra,
+    ggplot2,
+    ggtree (>= 3.9.1),
+    magrittr,
+    NbClust,
+    furrr,
+    stats,
+    tibble,
+    tidyr,
+    future,
+    purrr
+Depends: 
+    R (>= 2.10)
+LazyData: true
+URL: https://github.com/lailaviana/dgfr
+BugReports: https://github.com/lailaviana/dgfr/issues
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Remotes:  
+    https://github.com/YuLab-SMU/ggtree
+    
+
