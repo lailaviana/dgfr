@@ -46,6 +46,12 @@ library(dgfr)
 fasta_file <- Biostrings::readAAStringSet("data-raw/fasta")
 ```
 
+If you prefer, you might use a sample dataset provided by the package. The dataset is named `fasta` and contains 75 protein sequences and you can load it using the following command:
+
+```{r}
+fasta_file <- data(fasta)
+```
+
 
 2. The object containing your fasta should be provided to the first function named `get_alignment_score`, then you should also provide the type o sequence "nuc" for nucleotide or "prot" for protein, the alignment method ("global" or "local") and the number of cores to be used in the analysis. The score is calculated using the following formula:
   - algn_seq1seq2 / (sqrt(algn_seq1seq1) * sqrt(algn_seq2seq2))  

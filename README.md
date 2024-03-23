@@ -21,15 +21,7 @@ install the following dependencies:
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
 }
-#> 
-#> The downloaded binary packages are in
-#>  /var/folders/rd/m2vt0z452cx8j32v7s8q0z3h0000gn/T//Rtmp9NpXt0/downloaded_packages
 BiocManager::install("Biostrings", dependencies = TRUE)
-#> 
-#> The downloaded binary packages are in
-#>  /var/folders/rd/m2vt0z452cx8j32v7s8q0z3h0000gn/T//Rtmp9NpXt0/downloaded_packages
-#> Error in download.file(url, destfile, method, mode = "wb", ...) : 
-#>   download from 'https://bioconductor.org/packages/3.17/data/annotation/src/contrib/BSgenome.Hsapiens.UCSC.hg18_1.3.1000.tar.gz' failed
 ```
 
 Now you can install the `dgfr` package using the following command:
@@ -50,6 +42,14 @@ library(dgfr)
 
 ``` r
 fasta_file <- Biostrings::readAAStringSet("data-raw/fasta")
+```
+
+If you prefer, you might use a sample dataset provided by the package.
+The dataset is named `fasta` and contains 75 protein sequences and you
+can load it using the following command:
+
+``` r
+fasta_file <- data(fasta)
 ```
 
 2.  The object containing your fasta should be provided to the first
@@ -156,7 +156,7 @@ tree <- dgfr::create_tree(distance_matrix = distance_matrix,
 tree
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="60%" style="display: block; margin: auto;" />
 
 8.  Finally, you can access the mean/median similarity among each
     cluster using the function `similarity_cluster`. This function takes
@@ -186,7 +186,7 @@ dgfr::similarity_cluster(score_file = score_file,
                          output_type = "plot")
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" />
 
 ## Data visualisation suggestions
 
@@ -212,7 +212,7 @@ kmeans_output |>
                 y = round(variance$`2`, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Identifying particular sequences within the gene family
 
@@ -241,7 +241,7 @@ gghighlight::gghighlight(name %in% seq_name) +
                            box.padding = 0.5)
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Identifying the number of clusters within the gene family
 
@@ -262,7 +262,7 @@ kmeans_output |>
                 y = round(variance$`2`, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Aggregating and visualizing RNAseq data
 
@@ -288,7 +288,7 @@ kmeans_out_l2fc |>
                 y = round(variance$`2`, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;" />
 
 ## Warranty
 
