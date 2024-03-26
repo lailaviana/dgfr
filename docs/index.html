@@ -75,7 +75,7 @@
 <p>Now you can install the <code>dgfr</code> package using the following command:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="co">#devtools::install_github("lailaviana/dgfr")</span></span>
+<span><span class="co"># devtools::install_github("lailaviana/dgfr")</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lailaviana/dgfr" class="external-link">dgfr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -85,10 +85,8 @@
 <li>First, retrieve the FASTA sequences of the gene family being studied from the database of your choice. The fasta file must be loaded inside R using the Biostrings::readAAStringSet() in case of protein sequences or Biostrings::readDNAStringSet() in case of nucleotide sequences.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fasta_file</span> <span class="op">&lt;-</span> <span class="fu">Biostrings</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XStringSet-io.html" class="external-link">readAAStringSet</a></span><span class="op">(</span><span class="st">"data-raw/tcmuc_fasta"</span><span class="op">)</span></span></code></pre></div>
-<p>If you prefer, you might use a sample dataset provided by the package. The dataset is named <code>fasta</code> and contains 75 protein sequences and you can load it using the following command:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fasta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tcmuc_fasta</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tcmuc_fasta</span> <span class="op">&lt;-</span> <span class="fu">Biostrings</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XStringSet-io.html" class="external-link">readAAStringSet</a></span><span class="op">(</span><span class="st">"data-raw/tcmuc_fasta"</span><span class="op">)</span></span></code></pre></div>
+<p>If you prefer, you can utilize a sample dataset included in the package named <code>fasta</code>, which comprises 75 protein sequences. In this instance, I will employ the complete set of proteins <code>tcmuc_fasta</code>.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>The object containing your fasta should be provided to the first function named <code>get_alignment_score</code>, then you should also provide the type o sequence “nuc” for nucleotide or “prot” for protein, the alignment method (“global” or “local”) and the number of cores to be used in the analysis. The score is calculated using the following formula:</li>
 </ol>
@@ -96,7 +94,7 @@
 <li>algn_seq1seq2 / (sqrt(algn_seq1seq1) * sqrt(algn_seq2seq2))<br>
 This formula was first proposed by Bleakley and Yamanashi and is a way to normalize the score by the length of the alignment. The output will be a dataframe containing the score of each pairwise alignment among all sequences provided.</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">score_file</span> <span class="op">&lt;-</span> <span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/get_alignment_score.html">get_alignment_score</a></span><span class="op">(</span>fasta <span class="op">=</span> <span class="va">tcmuc_fasta</span>,</span>
 <span>                                        type <span class="op">=</span> <span class="st">"prot"</span>,</span>
 <span>                                        alignment_method <span class="op">=</span> <span class="st">"global"</span>,</span>
@@ -110,12 +108,12 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <ol start="3" style="list-style-type: decimal">
 <li>The output of the first function of the package, should be provided to the second function called <code>create_distance_matrix</code>. This function calculates the average Euclidian distance between the score of each pairwise alignment.</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">distance_matrix</span> <span class="op">&lt;-</span> <span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/create_distance_matrix.html">create_distance_matrix</a></span><span class="op">(</span>score_file <span class="op">=</span> <span class="va">score_file</span><span class="op">)</span></span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>After generating the distance matrix, we will use the <code>get_variance</code> function to access the variability explained by each axis. This requires the provision of the file containing the distance matrix. In general, a cumulative value of 70% or higher for the axis is considered adequate for explaining the data’s variance.</li>
 </ol>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variance</span> <span class="op">&lt;-</span> <span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/get_variance.html">get_variance</a></span><span class="op">(</span>distance_matrix <span class="op">=</span> <span class="va">distance_matrix</span><span class="op">)</span></span>
 <span><span class="va">variance</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 3</span></span>
@@ -125,7 +123,7 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <ol start="5" style="list-style-type: decimal">
 <li>The subsequent required step consists of a multidimensional scaling (MDS) of the data matrix. The output will consist of the name of the sequence and its position on axes 1 and 2.</li>
 </ol>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dim_reduced_file</span> <span class="op">&lt;-</span> <span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/dim_reduction.html">dim_reduction</a></span><span class="op">(</span>distance_matrix <span class="op">=</span> <span class="va">distance_matrix</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dim_reduced_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                          axis_1     axis_2</span></span>
@@ -138,10 +136,10 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <ol start="6" style="list-style-type: decimal">
 <li>A possible functionality of the dgfr package is to determine the optimal number of clusters in the dataset. You must provide the dimension-reduced file and, if desired, the minimum and maximum number of clusters to be identified. If you do not provide these values, the script will automatically search between 2 and 20 clusters.</li>
 </ol>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_output</span> <span class="op">&lt;-</span> <span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/kmeans_clustering.html">kmeans_clustering</a></span><span class="op">(</span>dim_reduced_file <span class="op">=</span> <span class="va">dim_reduced_file</span><span class="op">)</span></span></code></pre></div>
 <p>Finally, you will have a table containing the name of each sequence, its position on axes 1 and 2, and the cluster to which the sequence belongs.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">kmeans_output</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                  name      axis_1     axis_2 cluster</span></span>
 <span><span class="co">#&gt; 1 TcYC6_0150500-RA-p1  0.01410299 0.08506485       1</span></span>
@@ -153,16 +151,16 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <ol start="7" style="list-style-type: decimal">
 <li>The next function, allows you to visualize the sequences and its cluster in a tree-like structure. You must provide the <code>kmeans_clustering</code> function output and the <code>create_distance_matrix</code> output. The output will be a plot containing the sequences and its cluster.</li>
 </ol>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/create_tree.html">create_tree</a></span><span class="op">(</span>distance_matrix <span class="op">=</span> <span class="va">distance_matrix</span>,</span>
 <span>                kmeans_output <span class="op">=</span> <span class="va">kmeans_output</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tree</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="60%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;"></p>
 <ol start="8" style="list-style-type: decimal">
 <li>Finally, you can access the mean/median similarity among each cluster using the function <code>similarity_cluster</code>. This function takes as argument the <code>kmeans_clustering</code> function output, the <code>get_alignment_score</code> output and you must also choose between two possible visualizations output. The “table” output returns a table containing the mean and median similarity among all clusters and the number of genes inside each cluster.</li>
 </ol>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/similarity_cluster.html">similarity_cluster</a></span><span class="op">(</span>score_file <span class="op">=</span> <span class="va">score_file</span>,</span>
 <span>                         kmeans_output <span class="op">=</span> <span class="va">kmeans_output</span>,</span>
 <span>                         output_type <span class="op">=</span> <span class="st">"table"</span><span class="op">)</span></span>
@@ -173,11 +171,11 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <span><span class="co">#&gt; 2 cluster_2           0.756             0.707              49</span></span>
 <span><span class="co">#&gt; 3 cluster_3           0.434             0.260              36</span></span></code></pre></div>
 <p>The “plot” output returns a plot containing a violin plot highlighting the distribution of similarity within each cluster.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/similarity_cluster.html">similarity_cluster</a></span><span class="op">(</span>score_file <span class="op">=</span> <span class="va">score_file</span>,</span>
 <span>                         kmeans_output <span class="op">=</span> <span class="va">kmeans_output</span>,</span>
 <span>                         output_type <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="data-visualisation-suggestions">Data visualisation suggestions<a class="anchor" aria-label="anchor" href="#data-visualisation-suggestions"></a>
@@ -187,7 +185,7 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <h3 id="visualizing-gene-family-dispersion">Visualizing gene family dispersion<a class="anchor" aria-label="anchor" href="#visualizing-gene-family-dispersion"></a>
 </h3>
 <p>The simplest form of visualization is the scatter plot of sequences from a particular gene family, where each point represents a sequence, and the distance between two points is proportional to the similarity of these sequences.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_output</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">axis_1</span>, </span>
@@ -196,13 +194,13 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">variance</span><span class="op">$</span><span class="va">`1`</span>, <span class="fl">2</span><span class="op">)</span>, </span>
 <span>                y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">variance</span><span class="op">$</span><span class="va">`2`</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="identifying-particular-sequences-within-the-gene-family">Identifying particular sequences within the gene family<a class="anchor" aria-label="anchor" href="#identifying-particular-sequences-within-the-gene-family"></a>
 </h3>
 <p>The second suggested plot is similar to the first, but it allows for the highlighting of sequences of interest. In addition to <code>ggplot2</code>, <code>gghighlight</code> and <code>ggrepel</code> are required to perform this analysis.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">seq_name</span> <span class="op">&lt;-</span> <span class="va">kmeans_output</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -221,13 +219,13 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <span>                           min.segment.length <span class="op">=</span> <span class="fl">0</span>, </span>
 <span>                           seed <span class="op">=</span> <span class="fl">42</span>, </span>
 <span>                           box.padding <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="identifying-the-number-of-clusters-within-the-gene-family">Identifying the number of clusters within the gene family<a class="anchor" aria-label="anchor" href="#identifying-the-number-of-clusters-within-the-gene-family"></a>
 </h3>
 <p>In this third visualization suggestion, the gene family is divided into an optimal number of groups, each of which represented by a different color.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_output</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
@@ -238,13 +236,13 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">variance</span><span class="op">$</span><span class="va">`1`</span>, <span class="fl">2</span><span class="op">)</span>, </span>
 <span>                y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">variance</span><span class="op">$</span><span class="va">`2`</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="aggregating-and-visualizing-rnaseq-data">Aggregating and visualizing RNAseq data<a class="anchor" aria-label="anchor" href="#aggregating-and-visualizing-rnaseq-data"></a>
 </h3>
 <p>Another functionality is to integrate RNAseq data to visualize the expression and dispersion of the gene family in the scatter plot. The size of the points is proportional to the gene expression level of each family member, with small points representing genes with low expression and large points representing genes with high expression.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_out_l2fc</span> <span class="op">&lt;-</span> <span class="va">kmeans_output</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>l2fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">476</span>, min <span class="op">=</span> <span class="fl">0.1</span>, max <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -258,7 +256,7 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">variance</span><span class="op">$</span><span class="va">`1`</span>, <span class="fl">2</span><span class="op">)</span>, </span>
 <span>                y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">variance</span><span class="op">$</span><span class="va">`2`</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">

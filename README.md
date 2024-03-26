@@ -41,7 +41,7 @@ library(dgfr)
     sequences.
 
 ``` r
-fasta <- Biostrings::readAAStringSet("data-raw/tcmuc_fasta")
+tcmuc_fasta <- Biostrings::readAAStringSet("data-raw/tcmuc_fasta")
 ```
 
 If you prefer, you can utilize a sample dataset included in the package
@@ -62,7 +62,7 @@ will employ the complete set of proteins `tcmuc_fasta`.
   all sequences provided.
 
 ``` r
-score_file <- dgfr::get_alignment_score(fasta = fasta,
+score_file <- dgfr::get_alignment_score(fasta = tcmuc_fasta,
                                         type = "prot",
                                         alignment_method = "global",
                                         cores = 4)
