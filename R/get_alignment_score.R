@@ -133,7 +133,7 @@ get_alignment_score <- function(fasta, type, alignment_method, cores = 2) {
 
   message("[6/6] Pairwise alignment is done.")
 
-  #on.exit(closeAllConnections())
+  on.exit(closeAllConnections())
 
   return(score_file)
 }
