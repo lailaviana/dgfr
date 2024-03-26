@@ -137,4 +137,3 @@ get_alignment_score <- function(fasta, type, alignment_method, cores = 2) {
 
   return(score_file)
 }
-

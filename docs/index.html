@@ -85,10 +85,10 @@
 <li>First, retrieve the FASTA sequences of the gene family being studied from the database of your choice. The fasta file must be loaded inside R using the Biostrings::readAAStringSet() in case of protein sequences or Biostrings::readDNAStringSet() in case of nucleotide sequences.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fasta_file</span> <span class="op">&lt;-</span> <span class="fu">Biostrings</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XStringSet-io.html" class="external-link">readAAStringSet</a></span><span class="op">(</span><span class="st">"data-raw/fasta"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fasta_file</span> <span class="op">&lt;-</span> <span class="fu">Biostrings</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XStringSet-io.html" class="external-link">readAAStringSet</a></span><span class="op">(</span><span class="st">"data-raw/tcmuc_fasta"</span><span class="op">)</span></span></code></pre></div>
 <p>If you prefer, you might use a sample dataset provided by the package. The dataset is named <code>fasta</code> and contains 75 protein sequences and you can load it using the following command:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fasta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">fasta</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fasta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tcmuc_fasta</span><span class="op">)</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>The object containing your fasta should be provided to the first function named <code>get_alignment_score</code>, then you should also provide the type o sequence “nuc” for nucleotide or “prot” for protein, the alignment method (“global” or “local”) and the number of cores to be used in the analysis. The score is calculated using the following formula:</li>
 </ol>
@@ -97,7 +97,7 @@
 This formula was first proposed by Bleakley and Yamanashi and is a way to normalize the score by the length of the alignment. The output will be a dataframe containing the score of each pairwise alignment among all sequences provided.</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">score_file</span> <span class="op">&lt;-</span> <span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/get_alignment_score.html">get_alignment_score</a></span><span class="op">(</span>fasta <span class="op">=</span> <span class="va">fasta</span>,</span>
+<code class="sourceCode R"><span><span class="va">score_file</span> <span class="op">&lt;-</span> <span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/get_alignment_score.html">get_alignment_score</a></span><span class="op">(</span>fasta <span class="op">=</span> <span class="va">tcmuc_fasta</span>,</span>
 <span>                                        type <span class="op">=</span> <span class="st">"prot"</span>,</span>
 <span>                                        alignment_method <span class="op">=</span> <span class="st">"global"</span>,</span>
 <span>                                        cores <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
@@ -121,20 +121,20 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <span><span class="co">#&gt; # A tibble: 1 × 3</span></span>
 <span><span class="co">#&gt;     `1`   `2`   `3`</span></span>
 <span><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1  47.3  10.5  7.13</span></span></code></pre></div>
+<span><span class="co">#&gt; 1  81.7  10.5  3.34</span></span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>The subsequent required step consists of a multidimensional scaling (MDS) of the data matrix. The output will consist of the name of the sequence and its position on axes 1 and 2.</li>
 </ol>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dim_reduced_file</span> <span class="op">&lt;-</span> <span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/dim_reduction.html">dim_reduction</a></span><span class="op">(</span>distance_matrix <span class="op">=</span> <span class="va">distance_matrix</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dim_reduced_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                          axis_1      axis_2</span></span>
-<span><span class="co">#&gt; TcYC6_0151310-RA-p1  0.04399001  0.14767155</span></span>
-<span><span class="co">#&gt; TcYC6_0151320-RA-p1  0.27422867  0.02193386</span></span>
-<span><span class="co">#&gt; TcYC6_0151330-RA-p1  0.22137548 -0.41703263</span></span>
-<span><span class="co">#&gt; TcYC6_0151340-RA-p1 -0.37375527 -0.09776656</span></span>
-<span><span class="co">#&gt; TcYC6_0151350-RA-p1  0.22511770  0.04919759</span></span>
-<span><span class="co">#&gt; TcYC6_0151360-RA-p1  0.22346118  0.03798149</span></span></code></pre></div>
+<span><span class="co">#&gt;                          axis_1     axis_2</span></span>
+<span><span class="co">#&gt; TcYC6_0150500-RA-p1  0.01410299 0.08506485</span></span>
+<span><span class="co">#&gt; TcYC6_0150510-RA-p1 -1.10954550 0.30707240</span></span>
+<span><span class="co">#&gt; TcYC6_0150520-RA-p1 -0.97152461 0.20716940</span></span>
+<span><span class="co">#&gt; TcYC6_0150530-RA-p1 -1.13936354 0.29036688</span></span>
+<span><span class="co">#&gt; TcYC6_0150540-RA-p1 -0.73347654 0.01002143</span></span>
+<span><span class="co">#&gt; TcYC6_0150550-RA-p1  0.43034170 0.19684138</span></span></code></pre></div>
 <ol start="6" style="list-style-type: decimal">
 <li>A possible functionality of the dgfr package is to determine the optimal number of clusters in the dataset. You must provide the dimension-reduced file and, if desired, the minimum and maximum number of clusters to be identified. If you do not provide these values, the script will automatically search between 2 and 20 clusters.</li>
 </ol>
@@ -143,13 +143,13 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <p>Finally, you will have a table containing the name of each sequence, its position on axes 1 and 2, and the cluster to which the sequence belongs.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">kmeans_output</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                  name      axis_1      axis_2 cluster</span></span>
-<span><span class="co">#&gt; 1 TcYC6_0151310-RA-p1  0.04399001  0.14767155       1</span></span>
-<span><span class="co">#&gt; 2 TcYC6_0151320-RA-p1  0.27422867  0.02193386       1</span></span>
-<span><span class="co">#&gt; 3 TcYC6_0151330-RA-p1  0.22137548 -0.41703263       1</span></span>
-<span><span class="co">#&gt; 4 TcYC6_0151340-RA-p1 -0.37375527 -0.09776656       1</span></span>
-<span><span class="co">#&gt; 5 TcYC6_0151350-RA-p1  0.22511770  0.04919759       1</span></span>
-<span><span class="co">#&gt; 6 TcYC6_0151360-RA-p1  0.22346118  0.03798149       1</span></span></code></pre></div>
+<span><span class="co">#&gt;                  name      axis_1     axis_2 cluster</span></span>
+<span><span class="co">#&gt; 1 TcYC6_0150500-RA-p1  0.01410299 0.08506485       1</span></span>
+<span><span class="co">#&gt; 2 TcYC6_0150510-RA-p1 -1.10954550 0.30707240       1</span></span>
+<span><span class="co">#&gt; 3 TcYC6_0150520-RA-p1 -0.97152461 0.20716940       1</span></span>
+<span><span class="co">#&gt; 4 TcYC6_0150530-RA-p1 -1.13936354 0.29036688       1</span></span>
+<span><span class="co">#&gt; 5 TcYC6_0150540-RA-p1 -0.73347654 0.01002143       1</span></span>
+<span><span class="co">#&gt; 6 TcYC6_0150550-RA-p1  0.43034170 0.19684138       1</span></span></code></pre></div>
 <ol start="7" style="list-style-type: decimal">
 <li>The next function, allows you to visualize the sequences and its cluster in a tree-like structure. You must provide the <code>kmeans_clustering</code> function output and the <code>create_distance_matrix</code> output. The output will be a plot containing the sequences and its cluster.</li>
 </ol>
@@ -166,11 +166,12 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <code class="sourceCode R"><span><span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/similarity_cluster.html">similarity_cluster</a></span><span class="op">(</span>score_file <span class="op">=</span> <span class="va">score_file</span>,</span>
 <span>                         kmeans_output <span class="op">=</span> <span class="va">kmeans_output</span>,</span>
 <span>                         output_type <span class="op">=</span> <span class="st">"table"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 4</span></span>
 <span><span class="co">#&gt;   cluster   mean_similarity median_similarity number_of_genes</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;               &lt;dbl&gt;             &lt;dbl&gt;           &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 cluster_1           0.515             0.501              72</span></span>
-<span><span class="co">#&gt; 2 cluster_2           0.506             0.273               3</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 cluster_1           0.509             0.503             391</span></span>
+<span><span class="co">#&gt; 2 cluster_2           0.756             0.707              49</span></span>
+<span><span class="co">#&gt; 3 cluster_3           0.434             0.260              36</span></span></code></pre></div>
 <p>The “plot” output returns a plot containing a violin plot highlighting the distribution of similarity within each cluster.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dgfr</span><span class="fu">::</span><span class="fu"><a href="reference/similarity_cluster.html">similarity_cluster</a></span><span class="op">(</span>score_file <span class="op">=</span> <span class="va">score_file</span>,</span>
@@ -245,7 +246,7 @@ This formula was first proposed by Bleakley and Yamanashi and is a way to normal
 <p>Another functionality is to integrate RNAseq data to visualize the expression and dispersion of the gene family in the scatter plot. The size of the points is proportional to the gene expression level of each family member, with small points representing genes with low expression and large points representing genes with high expression.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_out_l2fc</span> <span class="op">&lt;-</span> <span class="va">kmeans_output</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>l2fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">75</span>, min <span class="op">=</span> <span class="fl">0.1</span>, max <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>l2fc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">476</span>, min <span class="op">=</span> <span class="fl">0.1</span>, max <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kmeans_out_l2fc</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>

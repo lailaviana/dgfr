@@ -34,23 +34,19 @@ Now you can install the `dgfr` package using the following command:
 
 ```{r, message=FALSE}
 # install.packages("devtools")
-#devtools::install_github("lailaviana/dgfr")
+# devtools::install_github("lailaviana/dgfr")
 library(dgfr)
 ```
 
 ## How to use?
 
-1. First, retrieve the FASTA sequences of the gene family being studied from the database of your choice. The fasta file must be loaded inside R using the Biostrings::readAAStringSet() in case of protein sequences or Biostrings::readDNAStringSet() in case of nucleotide sequences. 
+1. First, retrieve the FASTA sequences of the gene family being studied from the database of your choice. The fasta file must be loaded inside R using the Biostrings::readAAStringSet() in case of protein sequences or Biostrings::readDNAStringSet() in case of nucleotide sequences.  
 
 ```{r}
-fasta_file <- Biostrings::readAAStringSet("data-raw/fasta")
-```
+fasta <- Biostrings::readAAStringSet("data-raw/tcmuc_fasta")
 
-If you prefer, you might use a sample dataset provided by the package. The dataset is named `fasta` and contains 75 protein sequences and you can load it using the following command:
-
-```{r}
-fasta_file <- data(fasta)
 ```
+If you prefer, you can utilize a sample dataset included in the package named `fasta`, which comprises 75 protein sequences. In this instance, I will employ the complete set of proteins `tcmuc_fasta`.
 
 
 2. The object containing your fasta should be provided to the first function named `get_alignment_score`, then you should also provide the type o sequence "nuc" for nucleotide or "prot" for protein, the alignment method ("global" or "local") and the number of cores to be used in the analysis. The score is calculated using the following formula:
@@ -193,7 +189,7 @@ Another functionality is to integrate RNAseq data to visualize the expression an
 
 ```{r, out.width="60%", fig.align='center'}
 kmeans_out_l2fc <- kmeans_output |> 
-  dplyr::mutate(l2fc = runif(75, min = 0.1, max = 4))
+  dplyr::mutate(l2fc = runif(476, min = 0.1, max = 4))
 
 kmeans_out_l2fc |> 
   dplyr::mutate(cluster = as.character(cluster)) |> 

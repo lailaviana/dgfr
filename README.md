@@ -28,7 +28,7 @@ Now you can install the `dgfr` package using the following command:
 
 ``` r
 # install.packages("devtools")
-#devtools::install_github("lailaviana/dgfr")
+# devtools::install_github("lailaviana/dgfr")
 library(dgfr)
 ```
 
@@ -41,16 +41,12 @@ library(dgfr)
     sequences.
 
 ``` r
-fasta_file <- Biostrings::readAAStringSet("data-raw/fasta")
+fasta <- Biostrings::readAAStringSet("data-raw/tcmuc_fasta")
 ```
 
-If you prefer, you might use a sample dataset provided by the package.
-The dataset is named `fasta` and contains 75 protein sequences and you
-can load it using the following command:
-
-``` r
-fasta_file <- data(fasta)
-```
+If you prefer, you can utilize a sample dataset included in the package
+named `fasta`, which comprises 75 protein sequences. In this instance, I
+will employ the complete set of proteins `tcmuc_fasta`.
 
 2.  The object containing your fasta should be provided to the first
     function named `get_alignment_score`, then you should also provide
@@ -99,7 +95,7 @@ variance |> dplyr::select(1:3)
 #> # A tibble: 1 × 3
 #>     `1`   `2`   `3`
 #>   <dbl> <dbl> <dbl>
-#> 1  47.3  10.5  7.13
+#> 1  81.7  10.5  3.34
 ```
 
 5.  The subsequent required step consists of a multidimensional scaling
@@ -109,13 +105,13 @@ variance |> dplyr::select(1:3)
 ``` r
 dim_reduced_file <- dgfr::dim_reduction(distance_matrix = distance_matrix)
 head(dim_reduced_file)
-#>                          axis_1      axis_2
-#> TcYC6_0151310-RA-p1  0.04399001  0.14767155
-#> TcYC6_0151320-RA-p1  0.27422867  0.02193386
-#> TcYC6_0151330-RA-p1  0.22137548 -0.41703263
-#> TcYC6_0151340-RA-p1 -0.37375527 -0.09776656
-#> TcYC6_0151350-RA-p1  0.22511770  0.04919759
-#> TcYC6_0151360-RA-p1  0.22346118  0.03798149
+#>                          axis_1     axis_2
+#> TcYC6_0150500-RA-p1  0.01410299 0.08506485
+#> TcYC6_0150510-RA-p1 -1.10954550 0.30707240
+#> TcYC6_0150520-RA-p1 -0.97152461 0.20716940
+#> TcYC6_0150530-RA-p1 -1.13936354 0.29036688
+#> TcYC6_0150540-RA-p1 -0.73347654 0.01002143
+#> TcYC6_0150550-RA-p1  0.43034170 0.19684138
 ```
 
 6.  A possible functionality of the dgfr package is to determine the
@@ -134,13 +130,13 @@ position on axes 1 and 2, and the cluster to which the sequence belongs.
 
 ``` r
 head(kmeans_output)
-#>                  name      axis_1      axis_2 cluster
-#> 1 TcYC6_0151310-RA-p1  0.04399001  0.14767155       1
-#> 2 TcYC6_0151320-RA-p1  0.27422867  0.02193386       1
-#> 3 TcYC6_0151330-RA-p1  0.22137548 -0.41703263       1
-#> 4 TcYC6_0151340-RA-p1 -0.37375527 -0.09776656       1
-#> 5 TcYC6_0151350-RA-p1  0.22511770  0.04919759       1
-#> 6 TcYC6_0151360-RA-p1  0.22346118  0.03798149       1
+#>                  name      axis_1     axis_2 cluster
+#> 1 TcYC6_0150500-RA-p1  0.01410299 0.08506485       1
+#> 2 TcYC6_0150510-RA-p1 -1.10954550 0.30707240       1
+#> 3 TcYC6_0150520-RA-p1 -0.97152461 0.20716940       1
+#> 4 TcYC6_0150530-RA-p1 -1.13936354 0.29036688       1
+#> 5 TcYC6_0150540-RA-p1 -0.73347654 0.01002143       1
+#> 6 TcYC6_0150550-RA-p1  0.43034170 0.19684138       1
 ```
 
 7.  The next function, allows you to visualize the sequences and its
@@ -156,7 +152,7 @@ tree <- dgfr::create_tree(distance_matrix = distance_matrix,
 tree
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" />
 
 8.  Finally, you can access the mean/median similarity among each
     cluster using the function `similarity_cluster`. This function takes
@@ -170,11 +166,12 @@ tree
 dgfr::similarity_cluster(score_file = score_file,
                          kmeans_output = kmeans_output,
                          output_type = "table")
-#> # A tibble: 2 × 4
+#> # A tibble: 3 × 4
 #>   cluster   mean_similarity median_similarity number_of_genes
 #>   <chr>               <dbl>             <dbl>           <int>
-#> 1 cluster_1           0.515             0.501              72
-#> 2 cluster_2           0.506             0.273               3
+#> 1 cluster_1           0.509             0.503             391
+#> 2 cluster_2           0.756             0.707              49
+#> 3 cluster_3           0.434             0.260              36
 ```
 
 The “plot” output returns a plot containing a violin plot highlighting
@@ -186,7 +183,7 @@ dgfr::similarity_cluster(score_file = score_file,
                          output_type = "plot")
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" />
 
 ## Data visualisation suggestions
 
@@ -212,7 +209,7 @@ kmeans_output |>
                 y = round(variance$`2`, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Identifying particular sequences within the gene family
 
@@ -241,7 +238,7 @@ gghighlight::gghighlight(name %in% seq_name) +
                            box.padding = 0.5)
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Identifying the number of clusters within the gene family
 
@@ -262,7 +259,7 @@ kmeans_output |>
                 y = round(variance$`2`, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Aggregating and visualizing RNAseq data
 
@@ -274,7 +271,7 @@ and large points representing genes with high expression.
 
 ``` r
 kmeans_out_l2fc <- kmeans_output |> 
-  dplyr::mutate(l2fc = runif(75, min = 0.1, max = 4))
+  dplyr::mutate(l2fc = runif(476, min = 0.1, max = 4))
 
 kmeans_out_l2fc |> 
   dplyr::mutate(cluster = as.character(cluster)) |> 
@@ -288,7 +285,7 @@ kmeans_out_l2fc |>
                 y = round(variance$`2`, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" />
 
 ## Warranty
 
