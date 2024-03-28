@@ -7,10 +7,10 @@
 <!-- badges: end -->
 
 The purpose of the dgfr package is to enable the visualization of
-sequence diversity within gene/protein families. In addition, it is also
-possible to determine the optimal number of clusters for grouping
-members of gene families based on sequence similarity and to calculate
-the mean/median similarity inside each cluster.
+sequence diversity within gene/protein families. It is also possible to
+determine the optimal number of clusters for grouping members of gene
+families based on sequence similarity and to calculate the mean/median
+similarity inside each cluster.
 
 ## Installation
 
@@ -47,6 +47,10 @@ tcmuc_fasta <- Biostrings::readAAStringSet("data-raw/tcmuc_fasta")
 If you prefer, you can utilize a sample dataset included in the package
 named `fasta`, which comprises 75 protein sequences. In this instance, I
 will employ the complete set of proteins `tcmuc_fasta`.
+
+``` r
+data(fasta)
+```
 
 2.  The object containing your fasta should be provided to the first
     function named `get_alignment_score`, then you should also provide
@@ -152,7 +156,7 @@ tree <- dgfr::create_tree(distance_matrix = distance_matrix,
 tree
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="60%" style="display: block; margin: auto;" />
 
 8.  Finally, you can access the mean/median similarity among each
     cluster using the function `similarity_cluster`. This function takes
@@ -183,7 +187,7 @@ dgfr::similarity_cluster(score_file = score_file,
                          output_type = "plot")
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" />
 
 ## Data visualisation suggestions
 
@@ -209,7 +213,7 @@ kmeans_output |>
                 y = round(variance$`2`, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Identifying particular sequences within the gene family
 
@@ -238,7 +242,7 @@ gghighlight::gghighlight(name %in% seq_name) +
                            box.padding = 0.5)
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Identifying the number of clusters within the gene family
 
@@ -259,7 +263,7 @@ kmeans_output |>
                 y = round(variance$`2`, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" />
 
 ### Aggregating and visualizing RNAseq data
 
@@ -285,7 +289,7 @@ kmeans_out_l2fc |>
                 y = round(variance$`2`, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;" />
 
 ## Warranty
 

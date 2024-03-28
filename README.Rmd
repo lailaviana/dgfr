@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The purpose of the dgfr package is to enable the visualization of sequence diversity within gene/protein families. In addition, it is also possible to determine the optimal number of clusters for grouping members of gene families based on sequence similarity and to calculate the mean/median similarity inside each cluster.
+The purpose of the dgfr package is to enable the visualization of sequence diversity within gene/protein families. It is also possible to determine the optimal number of clusters for grouping members of gene families based on sequence similarity and to calculate the mean/median similarity inside each cluster.
 
 ## Installation
 Before proceeding to the installation of the dgfr package, you must install the following dependencies:
@@ -46,8 +46,12 @@ library(dgfr)
 tcmuc_fasta <- Biostrings::readAAStringSet("data-raw/tcmuc_fasta")
 
 ```
+
 If you prefer, you can utilize a sample dataset included in the package named `fasta`, which comprises 75 protein sequences. In this instance, I will employ the complete set of proteins `tcmuc_fasta`.
 
+```{r, eval=FALSE}
+data(fasta)
+```
 
 2. The object containing your fasta should be provided to the first function named `get_alignment_score`, then you should also provide the type o sequence "nuc" for nucleotide or "prot" for protein, the alignment method ("global" or "local") and the number of cores to be used in the analysis. The score is calculated using the following formula:
   - algn_seq1seq2 / (sqrt(algn_seq1seq1) * sqrt(algn_seq2seq2))  
