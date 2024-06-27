@@ -17,7 +17,7 @@
 similarity_cluster <- function(score_file, kmeans_output, output_type) {
   res <- score_file |>
     tibble::rownames_to_column(var = "gene1") |>
-    tidyr::pivot_longer(cols = starts_with("T"),
+    tidyr::pivot_longer(cols = -1,
                         names_to = "gene2",
                         values_to = "similarity") |>
     dplyr::left_join(kmeans_output, by = dplyr::join_by(gene1 == name)) |>
